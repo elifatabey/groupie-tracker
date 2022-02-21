@@ -1,66 +1,128 @@
-package grouppack
+package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
 // Unmarshalling API JSON
-// ref: https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
+//ref: https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
 
-func UnmarshAPI(url string, listStruct interface{}) string {
-	resp, err1 := http.Get(url)
-	body, err2 := ioutil.ReadAll(resp.Body)
-	err3 := json.Unmarshal(body, &listStruct)
-	if err1 != nil || err2 != nil || err3 != nil {
-		return "Error with unmarshing of URL: " + url
+const api = "https://groupietrackers.herokuapp.com/api"
+
+func ReadURL(url string) []byte {
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("No response from request")
 	}
-	return "no problem"
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body) // response body is []byte
+	return body
 }
 
 // Artists collection from API
 type ArtistsAPI struct {
-	Id         int      `json:"id"`
-	Logo       string   `json:"image"`
-	Name       string   `json:"name"`
-	Members    []string `json:"members"`
-	Establish  int      `json:"creationDate"`
-	FirstAlbum string   `json:"firstAlbum"`
+	// note even though Id, Logo.. start with upper case to be exportable
+	ID           int      `json:"id"`
+	Image        string   `json:"image"`
+	Name         string   `json:"name"`
+	Members      []string `json:"members"`
+	CreationDate int      `json:"creationDate"`
+	FirstAlbum   string   `json:"firstAlbum"`
+	Locations    string   `json:"locations"`
+	ConcertDates string   `json:"concertDates"`
+	Relations    string   `json:"relations"`
 }
 
-// Relation and Location collection from API
-type RelLocAPI struct {
+// Embedded JSON
+type LocationsAPI struct {
 	Index []struct {
-		Rel_LD map[string][]string `json:"datesLocations"`
+		ID        int      `json:"id"`
+		Locations []string `json:"locations"`
+		Dates     string   `json:"dates"`
+	} `json:"index"`
+}
+type DatesAPI struct {
+	Index []struct {
+		ID    int      `json:"id"`
+		Dates []string `json:"dates"`
+	} `json:"index"`
+}
+type RelationsAPI struct {
+	Index []struct {
+		ID        int                 `json:"id"`
+		Relations map[string][]string `json:"datesLocations"`
 	} `json:"index"`
 }
 
-// to reorginised
-type FullList []struct {
-	Id         int
-	Name       string
-	Logo       string
-	Members    []string
-	Establish  int
-	FirstAlbum int64
-	Concerts   []struct {
-		Location string
-		// Coords []float64
-		Dates []int64
+func main() {
+	var Artists []ArtistsAPI
+	var Locations LocationsAPI
+	var Dates DatesAPI
+	var Relations RelationsAPI
+
+	a := ReadURL(api + "/artists")
+	l := ReadURL(api + "/locations")
+	d := ReadURL(api + "/dates")
+	r := ReadURL(api + "/relation")
+
+	err1 := json.Unmarshal(a, &Artists)
+	err2 := json.Unmarshal(l, &Locations)
+	err3 := json.Unmarshal(d, &Dates)
+	err4 := json.Unmarshal(r, &Relations)
+
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
+		fmt.Println("Can not unmarshal JSON")
 	}
+	fmt.Println(Relations)
+	// for _, rec := range Artists {
+	// 	fmt.Println(rec.CreationDate)
+	// }
 }
 
-var ListAPI FullList
+// func OrganiseAPI(url string) string {
 
-func OrganiseAPI(url string) string {
+// 	var orgArt []ArtistsAPI
+// 	var orgLoc Locations
+// 	var orgDates Dates
+// 	var orgRel Relations
+// 	//unmarshaling JSON pointing to orgArt-orgRel variable
+// 	art := UnmarshAPI(url+"artists", orgArt)
+// 	loc := UnmarshAPI(url+"locations", orgArt)
+// 	dates := UnmarshAPI(url+"dates", orgArt)
+// 	rel := UnmarshAPI(url+"relation", orgRel)
 
-	var orgArt ArtistsAPI
-	var orgRel RelLocAPI
+// 	if art == "no problem on unmarshing" && dates == "no problem on unmarshing" && loc == "no problem on unmarshing" && rel == "no problem on unmarshing" {
+// 		a := make(FullList, len(orgArt))
+// 		for i := range orgArt {
+// 			var a ArtistsAPI
+// 			a.Id = orgArt[i].Id
+// 			a.Logo = orgArt[i].Logo
+// 			a.Name = orgArt[i].Name
+// 			a.Members = orgArt[i].Members
+// 			a.Establish = orgArt[i].Establish
+// 			a.FirstAlbum = orgArt[i].FirstAlbum
+// 			for j := range orgLoc.Index[i].Locations {
+// 				a.Locations = orgLoc.Index[i].Locations[j]
+// 			}
+// 			for k := range orgDates.Index[i].ConcertDates {
+// 				a.ConcertDates = orgDates.Index[i].ConcertDates[k]
+// 			}
+// 		}
+// 		b, _ := json.Marshal(a)
+// 		f, _ := os.Create("grouppack/base.json")
+// 		ioutil.WriteFile("grouppack/base.json", b, 0644)
+// 		defer f.Close()
+// 		fmt.Println(art)
 
-	art := UnmarshAPI(url+"artists", orgArt)
-	rel := UnmarshAPI(url+"relation", orgRel)
-
-	
-
-}
+// 	} else {
+// 		fmt.Println("problem on unmarshing, check JSON")
+// 	}
+// 	return "API organised"
+// }
+// func main() {
+// 	print := OrganiseAPI("https://groupietrackers.herokuapp.com/api/")
+// 	fmt.Println(print)
+// }
