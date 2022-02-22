@@ -31,9 +31,10 @@ type ArtistsAPI struct {
 	Members      []string `json:"members"`
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
-	Locations    string   `json:"locations"`
-	ConcertDates string   `json:"concertDates"`
-	Relations    string   `json:"relations"`
+	
+	// Locations    string   `json:"locations"`
+	// ConcertDates string   `json:"concertDates"`
+	// Relations    string   `json:"relations"` 
 }
 
 // Embedded JSON
@@ -57,29 +58,35 @@ type RelationsAPI struct {
 	} `json:"index"`
 }
 
-func main() {
+func unmarchAPI(url string) {
 	var Artists []ArtistsAPI
 	var Locations LocationsAPI
 	var Dates DatesAPI
 	var Relations RelationsAPI
 
-	a := ReadURL(api + "/artists")
-	l := ReadURL(api + "/locations")
-	d := ReadURL(api + "/dates")
-	r := ReadURL(api + "/relation")
+	a := ReadURL(url + "/artists")
+	l := ReadURL(url + "/locations")
+	d := ReadURL(url + "/dates")
+	r := ReadURL(url + "/relation")
 
 	err1 := json.Unmarshal(a, &Artists)
 	err2 := json.Unmarshal(l, &Locations)
 	err3 := json.Unmarshal(d, &Dates)
 	err4 := json.Unmarshal(r, &Relations)
 
+	FullList := make(map[string]interface{})
+
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		fmt.Println("Can not unmarshal JSON")
-	}
-	fmt.Println(Relations)
-	// for _, rec := range Artists {
-	// 	fmt.Println(rec.CreationDate)
-	// }
+	 } else {
+	 	FullList = map[string]interface{}{
+	 		"Artists": Artists, "Locations": Locations, "Dates": Dates, "Relations": Relations}
+	 }
+	fmt.Printf("%+v\n" , FullList["Artists"] )
+}
+
+func main() {
+	unmarchAPI(api)
 }
 
 // func OrganiseAPI(url string) string {
