@@ -1,0 +1,34 @@
+.Container {
+    display: flex;
+  background-color: rgb(115, 117, 119);
+  height: 80vh;
+}
+
+.Item-1 {
+  justify-content: center;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+    width: 66vw;
+    background-color: rgb(212, 212, 212);
+    overflow-x: hidden;
+  overflow-y: auto;
+
+}
+
+.Item-2 {
+    width: 34vw;
+    background-color: rgb(118, 131, 43);
+}
+
+.card {
+    padding: 12px;
+    margin-top: 10vh;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  

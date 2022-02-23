@@ -3,14 +3,21 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
+
 )
 
 // Unmarshalling API JSON
 //ref: https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
 
 const api = "https://groupietrackers.herokuapp.com/api"
+var tpl *template.Template
+type Content struct {
+	FullList interface{}
+}
 
 func ReadURL(url string) []byte {
 	resp, err := http.Get(url)
@@ -58,7 +65,7 @@ type RelationsAPI struct {
 	} `json:"index"`
 }
 
-func unmarchAPI(url string) {
+func unmarchAPI(url string) interface{} {
 	var Artists []ArtistsAPI
 	var Locations LocationsAPI
 	var Dates DatesAPI
@@ -82,54 +89,39 @@ func unmarchAPI(url string) {
 	 	FullList = map[string]interface{}{
 	 		"Artists": Artists, "Locations": Locations, "Dates": Dates, "Relations": Relations}
 	 }
-	fmt.Printf("%+v\n" , FullList["Artists"] )
+	print()
+	 
+	return FullList["Artists"]
 }
 
 func main() {
-	unmarchAPI(api)
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs)) // handling the CSS
+	tpl, _ = template.ParseGlob("static/*.html")
+	http.HandleFunc("/", Home)
+
+	fmt.Printf("Starting server at port 3000\n")
+	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
-// func OrganiseAPI(url string) string {
+func Home(writer http.ResponseWriter, request *http.Request) {
+	if request.URL.Path != "/" {
+		http.Error(writer, "404 not found.", http.StatusNotFound)
+		return
+	}
 
-// 	var orgArt []ArtistsAPI
-// 	var orgLoc Locations
-// 	var orgDates Dates
-// 	var orgRel Relations
-// 	//unmarshaling JSON pointing to orgArt-orgRel variable
-// 	art := UnmarshAPI(url+"artists", orgArt)
-// 	loc := UnmarshAPI(url+"locations", orgArt)
-// 	dates := UnmarshAPI(url+"dates", orgArt)
-// 	rel := UnmarshAPI(url+"relation", orgRel)
+	switch request.Method {
+	case "GET":
+		template, _ := template.ParseFiles("./static/index.html")
 
-// 	if art == "no problem on unmarshing" && dates == "no problem on unmarshing" && loc == "no problem on unmarshing" && rel == "no problem on unmarshing" {
-// 		a := make(FullList, len(orgArt))
-// 		for i := range orgArt {
-// 			var a ArtistsAPI
-// 			a.Id = orgArt[i].Id
-// 			a.Logo = orgArt[i].Logo
-// 			a.Name = orgArt[i].Name
-// 			a.Members = orgArt[i].Members
-// 			a.Establish = orgArt[i].Establish
-// 			a.FirstAlbum = orgArt[i].FirstAlbum
-// 			for j := range orgLoc.Index[i].Locations {
-// 				a.Locations = orgLoc.Index[i].Locations[j]
-// 			}
-// 			for k := range orgDates.Index[i].ConcertDates {
-// 				a.ConcertDates = orgDates.Index[i].ConcertDates[k]
-// 			}
-// 		}
-// 		b, _ := json.Marshal(a)
-// 		f, _ := os.Create("grouppack/base.json")
-// 		ioutil.WriteFile("grouppack/base.json", b, 0644)
-// 		defer f.Close()
-// 		fmt.Println(art)
 
-// 	} else {
-// 		fmt.Println("problem on unmarshing, check JSON")
-// 	}
-// 	return "API organised"
-// }
-// func main() {
-// 	print := OrganiseAPI("https://groupietrackers.herokuapp.com/api/")
-// 	fmt.Println(print)
-// }
+
+		page := Content{FullList: unmarchAPI(api)}
+		template.Execute(writer, page)
+
+	default:
+		fmt.Fprintf(writer, "Sorry, only GET methods are supported.")
+	}
+}
+
+
