@@ -7,44 +7,58 @@
     <title>Groupie Tracker</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
+
 <body>
     <header>
         <nav>
-            <ul>
-                <li>HOME</li>
-                <li>ABOUT</li>
-
-            </ul>
+            <span>
+                <ul class="Nav">
+                    <h1>Groupie Tracker</h1>
+                    <li>HOME</li>
+                    <li>ABOUT</li>
+                    <form>
+                        <input type="search" placeholder="Search.." name="search">
+                        <button>Search</button>
+                    </form>
+                </ul>
+            </span>
         </nav>
-        <hr>
-        <h1>Groupie Tracker</h1>
-        <form>
-            <input type="search" placeholder="Search.." name="search">
-            <button>Search</button>
-            <p>{{.FullList}}</p>
-        </form>
+    </hr>
+
     </header>
     <div class="Container">
         <div class="Item-1">
             {{range .FullList}}
-<span>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png" alt="Avatar" style="width:25vw">
-<span>Name</span>
-</span>
-{{end}}
+            <span class="Album" onclick="myFunction()">
+                <img id="{{.Name}}" src="{{.Image}}" alt="Avatar" style="width:70px">
+                <span id="Name">{{.Name}}</span>
+
+            </span>
+            {{end}}
         </div>
         <div class="Item-2">
             <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png" alt="Avatar" style="width:25vw">
+                <img id="Card_img"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png"
+                    alt="Avatar" style="width:25vw">
                 <br>
                 <div class="container">
-                  <h4><b>John Doe</b></h4> 
-                  <p>Architect & Engineer</p> 
-                  
-                </div>
-              </div>
-        </div>
+                    <h4><b id="Card_name"></b></h4>
+                    <p>Architect & Engineer</p>
 
+                </div>
+            </div>
+        </div>
+        <script>
+            const myFunction = () => {
+                let name = document.getElementById("{{.Name}}").innerHTML;
+                let img = document.getElementById(name).src;
+                console.log(name);
+                document.getElementById("Card_name").innerHTML = name;
+                document.getElementById("Card_img").src = img
+    
+            }
+        </script>
     </div>
 </body>
 </htm>
