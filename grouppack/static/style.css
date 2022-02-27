@@ -1,48 +1,125 @@
-.Container {
-    display: flex;
-  background-color: rgb(49, 49, 49);
-  height: 80vh;
+* {
+  box-sizing: border-box; /* generic styling */
+  font: 14px/19px  "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
 }
+html,body {
+  margin: 0;
+  padding: 0;
+}
+.Nav {
+  margin-top: 0;
+  height: 30px;
+  text-align:center;
+  font-weight: lighter;
+}
+.Nav a {
+  display: inline-block;
+  padding: .7em;
+  color: rgb(204, 197, 197);
+  text-decoration: none; /* delete the underline from underneath of element */
+  font-size: 25px;
+}
+.Nav li :hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.Nav li{
+  list-style-type: none;
+  display: inline;
+  padding: .7em;
+  font-size: 25px;
+}
+.Main-nav {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header {
+  background-image: url("headerbackgroundimg.jpg");
+  background-position:center ;
+  background-size: cover;
+}
+
+.Searchbutton {
+  text-align: right;
+  vertical-align: middle; /* text inside of botton will be in the middle*/
+  padding: 0.50em;
+  cursor: pointer; /* when we hover over botton, get pointer icon */
+}
+.search {
+  border: 2px solid rgba(107, 8, 107, 0.815);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.search:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* when we hover over on search it will slighly change color */
+}
+.Main-name {
+  margin-bottom: 0px;
+  margin-top: 20px;
+  height: 70px;
+  text-align: center;
+  color: whitesmoke;
+  font-size: 60px;
+}
+
+/*left side of the page */
 
 .Item-1 {
   box-shadow: rgba(0, 0, 0, 0.877) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.897) 0px 18px 36px -18px inset;
   justify-content: center;
   display: grid;
   grid-gap: 1rem;
+  margin-top: 3px;
+  padding-right: 3px;
   grid-template-columns: repeat(3, 1fr);
     width: 55vw;
-    background-color: rgb(49, 49, 49);
+    background-color: rgb(224, 223, 223);
     overflow-x: hidden;
   overflow-y: auto;
-
 }
 
-.Item-2 {
-    width: 45vw;
-    background-color: rgb(49, 49, 49);
+.Container {  
+  display: flex;
+  background-color:  rgb(224, 223, 223);
+  height: 80vh;
 }
 
-.card {
+.Card {
     padding: 12px;
     margin-top: 10vh;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-  }
+}
   
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-  
-  .Nav {
-    list-style-type: none;
   }
 
   .Album {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    cursor: grab;
+    cursor: pointer;
+    margin: 10px;
   }
-
+  .Album_Img{
+    vertical-align: middle;
+    width: 75px;
+  }
+  .Album_Name {
+    vertical-align: middle;
+    display: inline;
+  }
   .Album:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    background-color: rgba(75, 34, 124, 0.87);
+    color: whitesmoke;
   }
+
+  /*right side of the page */
+
+  .Item-2 { 
+    box-shadow: rgba(0, 0, 0, 0.877) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.897) 0px 18px 36px -18px inset;
+    width: 45vw;
+    background-color:  rgb(224, 223, 223);
+    margin-top: 3px;
+   }
+

@@ -7,14 +7,15 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
 )
 
 // Unmarshalling API JSON
 //ref: https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
 
 const api = "https://groupietrackers.herokuapp.com/api"
+
 var tpl *template.Template
+
 type Content struct {
 	FullList interface{}
 }
@@ -38,10 +39,10 @@ type ArtistsAPI struct {
 	Members      []string `json:"members"`
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
-	
+
 	// Locations    string   `json:"locations"`
 	// ConcertDates string   `json:"concertDates"`
-	// Relations    string   `json:"relations"` 
+	// Relations    string   `json:"relations"`
 }
 
 // Embedded JSON
@@ -85,12 +86,12 @@ func unmarchAPI(url string) interface{} {
 
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		fmt.Println("Can not unmarshal JSON")
-	 } else {
-	 	FullList = map[string]interface{}{
-	 		"Artists": Artists, "Locations": Locations, "Dates": Dates, "Relations": Relations}
-	 }
+	} else {
+		FullList = map[string]interface{}{
+			"Artists": Artists, "Locations": Locations, "Dates": Dates, "Relations": Relations}
+	}
 	print()
-	 
+
 	return FullList["Artists"]
 }
 
@@ -114,8 +115,6 @@ func Home(writer http.ResponseWriter, request *http.Request) {
 	case "GET":
 		template, _ := template.ParseFiles("./static/index.html")
 
-
-
 		page := Content{FullList: unmarchAPI(api)}
 		template.Execute(writer, page)
 
@@ -123,5 +122,3 @@ func Home(writer http.ResponseWriter, request *http.Request) {
 		fmt.Fprintf(writer, "Sorry, only GET methods are supported.")
 	}
 }
-
-

@@ -9,35 +9,33 @@
 </head>
 
 <body>
-    <header>
-        <nav>
+    <header class="header">
+        <nav class="Main-nav">
             <span>
                 <ul class="Nav">
-                    <h1>Groupie Tracker</h1>
-                    <li>HOME</li>
-                    <li>ABOUT</li>
-                    <form>
-                        <input type="search" placeholder="Search.." name="search">
-                        <button>Search</button>
-                    </form>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
                 </ul>
             </span>
         </nav>
-    </hr>
-
+        <form class="Searchbutton">
+            <input class= "search" type="search" placeholder="Search.." name="search">
+            <button>Search</button>
+        </form>
+    <h1 class="Main-name">Groupie Tracker</h1>
     </header>
+
     <div class="Container">
         <div class="Item-1">
             {{range .FullList}}
             <span class="Album" onclick="myFunction()">
-                <img id="{{.Name}}" src="{{.Image}}" alt="Avatar" style="width:70px">
-                <span id="Name">{{.Name}}</span>
-
-            </span>
+                <a><img class="Album_Img" id="{{.Name}}" src="{{.Image}}" alt="Avatar"></a>
+                <span class="Album_Name" id="Name">{{.Name}}</span>
+            </span> 
             {{end}}
         </div>
         <div class="Item-2">
-            <div class="card">
+            <div class="Card">
                 <img id="Card_img"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png"
                     alt="Avatar" style="width:25vw">
@@ -49,16 +47,16 @@
                 </div>
             </div>
         </div>
-        <script>
-            const myFunction = () => {
-                let name = document.getElementById("{{.Name}}").innerHTML;
-                let img = document.getElementById(name).src;
-                console.log(name);
-                document.getElementById("Card_name").innerHTML = name;
-                document.getElementById("Card_img").src = img
-    
-            }
-        </script>
+
     </div>
+    <script>
+        function myFunction() {
+            let name = document.getElementById("{{.Name}}").innerHTML;
+            let img = document.getElementById(name).src;
+            console.log(name);
+            document.getElementById("Card_name").innerHTML = name;
+            document.getElementById("Card_img").src = img
+        }
+    </script>
 </body>
-</htm>
+</html>
