@@ -19,44 +19,49 @@
             </span>
         </nav>
         <form class="Searchbutton">
-            <input class= "search" type="search" placeholder="Search.." name="search">
+            <input class="search" type="search" placeholder="Search.." name="search">
             <button>Search</button>
         </form>
-    <h1 class="Main-name">Groupie Tracker</h1>
+        <h1 class="Main-name">Groupie Tracker</h1>
     </header>
 
     <div class="Container">
-        <div class="Item-1">
+        <div id="whole" class="Item-1" onclick="myFunction()">
             {{range .FullList}}
-            <span class="Album" onclick="myFunction()">
-                <a><img class="Album_Img" id="{{.Name}}" src="{{.Image}}" alt="Avatar"></a>
+            <span type="button" class="Album">
+                <img class="Album_Img" id="{{.Name}}" src="{{.Image}}" alt="Avatar">
                 <span class="Album_Name" id="Name">{{.Name}}</span>
-            </span> 
+            </span>
             {{end}}
+
         </div>
+
         <div class="Item-2">
             <div class="Card">
-                <img id="Card_img"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Images_2015_logo.svg/1200px-Google_Images_2015_logo.svg.png"
-                    alt="Avatar" style="width:25vw">
-                <br>
-                <div class="container">
-                    <h4><b id="Card_name"></b></h4>
-                    <p>Architect & Engineer</p>
+                <script>
+                    function myFunction() {
+                        var name = document.getElementsByClassName("Album_Img")[0].id;
+                        // let img = document.getElementById(name).src;
+                        // console.log(name); 
+                        document.getElementById("Card_name").innerHTML = name;
+                        return myFunction
+                        // document.getElementById("Card_img").src = img
+                    }
+                </script>
 
-                </div>
+                <h2>
+                    <p id="Card_name"></p>
+                </h2>
+                <!-- <img class="Card_img"
+                    src="{{.Image}}"
+                    alt="Avatar" style="width:25vw">
+                <br> -->
+                <!-- <div class="container" onclick="myFunction()"> -->
+                <!-- <p>{{.Name}}</p> -->
             </div>
         </div>
-
     </div>
-    <script>
-        function myFunction() {
-            let name = document.getElementById("{{.Name}}").innerHTML;
-            let img = document.getElementById(name).src;
-            console.log(name);
-            document.getElementById("Card_name").innerHTML = name;
-            document.getElementById("Card_img").src = img
-        }
-    </script>
+
 </body>
+
 </html>
