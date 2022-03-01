@@ -121,5 +121,9 @@ html,body {
     width: 45vw;
     background-color:  rgb(224, 223, 223);
     margin-top: 3px;
+    overflow-y: auto;
    }
 
+.Card_members {
+  overflow-y: auto;
+}

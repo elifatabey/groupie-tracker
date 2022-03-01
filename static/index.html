@@ -1,68 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <meta name="theme-color" content="#000000" />
     <title>Groupie Tracker</title>
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  </head>
 
-<body>
+  <body>
     <header class="header">
-        <nav class="Main-nav">
-            <span>
-                <ul class="Nav">
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="about.html">ABOUT</a></li>
-                </ul>
-            </span>
-        </nav>
-        <form class="Searchbutton">
-            <input class="search" type="search" placeholder="Search.." name="search">
-            <button>Search</button>
-        </form>
-        <h1 class="Main-name">Groupie Tracker</h1>
+      <nav class="Main-nav">
+        <span>
+          <ul class="Nav">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+          </ul>
+        </span>
+      </nav>
+      <form class="Searchbutton">
+        <input
+          class="search"
+          type="search"
+          placeholder="Search.."
+          name="search"
+        />
+        <button>Search</button>
+      </form>
+      <h1 class="Main-name">Groupie Tracker</h1>
     </header>
 
     <div class="Container">
-        
-        <div id="whole" class="Item-1" >
-            {{range .FullList}}
-            <span type="button" class="Album" onclick= "myFunction('{{.Name}}')">
-                <img class="Album_Img" id="{{.Name}}" src="{{.Image}}" alt="Avatar">
-                <span class="Album_Name" id="Name{{.Name}}">{{.Name}}</span>
-            </span>
-            {{end}}
-
+      <div id="whole" class="Item-1">
+        {{range .FullList}}
+        <span type="button" class="Album" onmouseover="myFunction('{{.Name}}')">
+          <img
+            class="Album_Img"
+            id="img{{.Name}}"
+            src="{{.Image}}"
+            alt="Avatar"
+          />
+          <span class="Album_Name" id="{{.Name}}">{{.Name}}</span>
+        </span>
+        <div id="members{{.Name}}" style="display : none"  >
+          
+          <p>
+            {{range .Members}}
+              {{.}}
+              {{end}}
+            </p>
+          
         </div>
+        {{end}}
+      </div>
 
-        <div class="Item-2">
-            <div class="Card">
-                <script>
-                    function myFunction(pname="") {
-                        var name = document.getElementsByClassName("Album_Img")[0].id;
-                        // let img = document.getElementById(name).src;
-                         console.log(pname); 
-                        document.getElementById("Card_name").innerHTML = pname;
-                        return myFunction
-                        // document.getElementById("Card_img").src = img
-                    }
-                </script>
+      <div class="Item-2">
+        <div class="Card">
+          <script>
+            function myFunction(pname = "") {
+              let img = document.getElementById("img" + pname).src;
+         //     let members_div = document.getElementById("members" + pname).style.display="block"
 
-                <h2>
-                    <p id="Card_name"></p>
-                </h2>
-                <!-- <img class="Card_img"
-                    src="{{.Image}}"
-                    alt="Avatar" style="width:25vw">
-                <br> -->
-                <!-- <div class="container" onclick="myFunction()"> -->
-                <!-- <p>{{.Name}}</p> -->
-            </div>
+              console.log(img);
+              document.getElementById("Card_name").innerHTML = pname;
+              document.getElementById("Card_img").src = img;
+              document.getElementById("Card_members").innerText = document.getElementById("members" + pname).innerText
+            }
+          </script>
+
+          <img
+            class="Card_img"
+            id="Card_img"
+            alt="Avatar"
+            src="https://groupietrackers.herokuapp.com/api/images/queen.jpeg"
+            style="width: 20vw"
+          />
+          <br />
+          <h2>
+            <p id="Card_name"></p>
+          </h2>
+          <p>Members</p>
+          <div id="Card_members" class="Card_members"></div>
         </div>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>
