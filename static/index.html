@@ -26,11 +26,12 @@
     </header>
 
     <div class="Container">
-        <div id="whole" class="Item-1" onclick="myFunction()">
+        
+        <div id="whole" class="Item-1" >
             {{range .FullList}}
-            <span type="button" class="Album">
+            <span type="button" class="Album" onclick= "myFunction('{{.Name}}')">
                 <img class="Album_Img" id="{{.Name}}" src="{{.Image}}" alt="Avatar">
-                <span class="Album_Name" id="Name">{{.Name}}</span>
+                <span class="Album_Name" id="Name{{.Name}}">{{.Name}}</span>
             </span>
             {{end}}
 
@@ -39,11 +40,11 @@
         <div class="Item-2">
             <div class="Card">
                 <script>
-                    function myFunction() {
+                    function myFunction(pname="") {
                         var name = document.getElementsByClassName("Album_Img")[0].id;
                         // let img = document.getElementById(name).src;
-                        // console.log(name); 
-                        document.getElementById("Card_name").innerHTML = name;
+                         console.log(pname); 
+                        document.getElementById("Card_name").innerHTML = pname;
                         return myFunction
                         // document.getElementById("Card_img").src = img
                     }
