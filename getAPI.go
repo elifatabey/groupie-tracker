@@ -11,7 +11,6 @@ import (
 
 // Unmarshalling API JSON
 //ref: https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
-
 const api = "https://groupietrackers.herokuapp.com/api"
 
 var tpl *template.Template
@@ -90,7 +89,6 @@ func unmarchAPI(url string) interface{} {
 		FullList = map[string]interface{}{
 			"Artists": Artists, "Locations": Locations, "Dates": Dates, "Relations": Relations}
 	}
-	print()
 
 	return FullList["Artists"]
 }
@@ -99,7 +97,9 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs)) // handling the CSS
 	tpl, _ = template.ParseGlob("static/*.html")
+
 	http.HandleFunc("/", Home)
+	http.HandleFunc("/about/", About)
 
 	fmt.Printf("Starting server at port 3000\n")
 	log.Fatal(http.ListenAndServe(":3000", nil))
@@ -114,6 +114,21 @@ func Home(writer http.ResponseWriter, request *http.Request) {
 	switch request.Method {
 	case "GET":
 		template, _ := template.ParseFiles("./static/index.html")
+
+		page := Content{FullList: unmarchAPI(api)}
+		template.Execute(writer, page)
+
+	default:
+		fmt.Fprintf(writer, "Sorry, only GET methods are supported.")
+	}
+}
+
+func About(writer http.ResponseWriter, request *http.Request) {
+
+	fmt.Print("hey")
+	switch request.Method {
+	case "GET":
+		template, _ := template.ParseFiles("./static/about.html")
 
 		page := Content{FullList: unmarchAPI(api)}
 		template.Execute(writer, page)

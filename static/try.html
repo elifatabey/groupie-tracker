@@ -30,8 +30,34 @@
     </header>
 
     <div class="Container">
-      <div class="Item-2" style="width: 20vw;">
+      <div id="whole" class="Item-1">
+        {{range .FullList}}
+        <span type="button" class="Album" onmouseover="myFunction('{{.Name}}')">
+          <img
+            class="Album_Img"
+            id="img{{.Name}}"
+            src="{{.Image}}"
+            alt="Avatar"
+          />
+          <span style="width: 1vw;"> </span>
+          <span class="Album_Name" id="{{.Name}}">  {{.Name}}</span>
+        </span>
+        <div id="members{{.Name}}" style="display : none"  >
+          
+          <p>
+            {{range .Members}}
+              {{.}}
+              {{end}}
+            </p>
+          
+        </div>
+        {{end}}
+      </div>
+
+      <div class="Item-2">
         <div class="Card">
+          
+          <a id="Card_name_link" href= "about/Name">
           <img
             class="Card_img"
             id="Card_img"
@@ -39,6 +65,7 @@
             src="https://groupietrackers.herokuapp.com/api/images/queen.jpeg"
             style="width: 20vw"
           />
+        </a>
           <br />
           <h2>
             <p id="Card_name"></p>
@@ -47,10 +74,15 @@
           <div id="Card_members" class="Card_members"></div>
         </div>
       </div>
-      <div id="whole" class="Item-1" style="width: 80vw;">
-
-          
-      </div>
     </div>
+    <script>
+        function myFunction(pname = "") {
+          let img = document.getElementById("img" + pname).src;
+          document.getElementById("Card_name_link").href = "about/"+pname;
+          document.getElementById("Card_name").innerHTML = pname;
+          document.getElementById("Card_img").src = img;
+          document.getElementById("Card_members").innerText = document.getElementById("members" + pname).innerText
+        }
+      </script>
   </body>
 </html>
