@@ -118,12 +118,38 @@ html,body {
     overflow-y: auto;
    }
 
-   .Card {
+   * { box-sizing: border-box; }
+   .sub-container {
     padding: 12px;
-    margin-top: 20px;
+    margin-top: 0;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-}
+    display: flex;
+  }
+
+  .Card_one,
+  .Card_two  {
+    /* border: 1px solid rgba(107, 8, 107, 0.815); */
+    padding: 0.5rem;
+    flex-grow: 1;
+  }
+  .Card_one p {
+    text-align: center ;
+    margin-top: 0px;
+  }
+  .Card_two {
+    text-align: center ;
+  }
+  .Card_one p,
+  .Card_two p {
+    background-color: rgba(20,15,37,255);
+    color: whitesmoke;
+  }
+  .pOne {
+    margin-top: 0px;
+  }
+  
+
 
 /* Card button neon effect: 
 ref: https://www.youtube.com/watch?v=6xNcXwC6ikQ&ab_channel=KevinPowell */
@@ -138,7 +164,7 @@ ref: https://www.youtube.com/watch?v=6xNcXwC6ikQ&ab_channel=KevinPowell */
 }
 
 .Card_name {
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 20px;
   font-size: 2rem;
   place-items: center;
@@ -201,4 +227,11 @@ ref: https://www.youtube.com/watch?v=6xNcXwC6ikQ&ab_channel=KevinPowell */
 }
 .Card_members {
   overflow-y: auto;
+  
 }
+.Card_members br:nth-child(1),
+.Card_members br:nth-child(2),
+.Card_members br:nth-child(3) {
+  display:none;
+}
+

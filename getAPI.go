@@ -99,7 +99,7 @@ func main() {
 	tpl, _ = template.ParseGlob("static/*.html")
 
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/about/", About)
+	http.HandleFunc("/about", About)
 
 	fmt.Printf("Starting server at port 3000\n")
 	log.Fatal(http.ListenAndServe(":3000", nil))

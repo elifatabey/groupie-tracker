@@ -26,52 +26,68 @@
   </header>
 
   <div class="Container">
+
     <!--Left side of the page-->
     <div id="whole" class="Item-1">
       {{range .FullList}}
       <span type="button" class="Album" onclick="myFunction('{{.Name}}')">
         <img class="Album_Img" id="img{{.Name}}" src="{{.Image}}" alt="Avatar" />
         <span class="Album_Name" id="{{.Name}}">{{.Name}}</span>
+        <span class="creationDate" id="creationDate{{.Name}}" style="display : none">{{.CreationDate}}</span>
+        <span class="firstalbum" id="firstalbum{{.Name}}" style="display : none">{{.FirstAlbum}}</span>
       </span>
-      <div id="members{{.Name}}" style="display : none">
-
+      <div class="members" id="members{{.Name}}" style="display : none">
         <p>
           {{range .Members}}
           {{.}}
           {{end}}
         </p>
-
       </div>
       {{end}}
     </div>
+
     <!--Right side of the page-->
     <div class="Item-2">
       <div class="Left_Up">
         <div class="intro">
-          <a id="Card_name_link" href= "about/Name">
-         <center><p class ="Card_name" id="Card_name" href= "about/Name"></p>
-         </a>
-        <p id="img">
-        <img class="Card_img" id="Card_img" alt="Avatar"
-          src="https://groupietrackers.herokuapp.com/api/images/queen.jpeg" style="width: 20vw" />
-        </p>
-      </center> 
-      </div>
-        <div class="Card">
-          <p>Members</p>
-          <div id="Card_members" class="Card_members"></div>
+          <a id="Card_name_link" href="/about">
+            <center>
+              <p class="Card_name" id="Card_name" ></p>
+          </a>
+          <p id="img">
+            <img class="Card_img" id="Card_img" alt="Avatar"
+              src="https://groupietrackers.herokuapp.com/api/images/queen.jpeg" style="width: 20vw" />
+          </p>
+          </center>
         </div>
+
+        <div class="sub-container">
+          <div class="Card_one" >
+            <p>Members</p>
+            <div id="Card_members" class="Card_members"></div>
+          </div>
+          <div class="Card_two">
+            <p class="pOne">Date of Establishment:</p>
+            <div id="Card_date" class="Card_date"></div>
+            <p>First Album:</p>
+            <div id="Card_album" class="Card_album"></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
   <script>
     function myFunction(pname = "") {
       let img = document.getElementById("img" + pname).src;
-      document.getElementById("Card_name_link").href = "about/"+pname;
+      document.getElementById("Card_name_link").href = "/about";
       document.getElementById("Card_name").innerHTML = pname;
       document.getElementById("Card_img").src = img;
       document.getElementById("Card_members").innerText = document.getElementById("members" + pname).innerText
+      document.getElementById("Card_date").innerHTML = document.getElementById("creationDate" + pname).innerHTML
+      document.getElementById("Card_album").innerHTML = document.getElementById("firstalbum" + pname).innerHTML
     }
   </script>
 </body>
+
 </html>
