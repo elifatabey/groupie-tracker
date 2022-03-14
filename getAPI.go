@@ -139,7 +139,7 @@ func About(writer http.ResponseWriter, request *http.Request) {
 		template, _ := template.ParseFiles("./static/about.html")
 
 		//page =  {unmarchAPI(api).Artists[id], unmarchAPI(api).Relations.Index[id] }
-		page := Content{FullList: unmarchAPI(api).Artists[id]}
+		page := Content{FullList: unmarchAPI(api).Artists[id-1]}
 		template.Execute(writer, page)
 
 	default:
