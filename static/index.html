@@ -13,7 +13,7 @@
     <nav class="Main-nav">
       <span>
         <ul class="Nav">
-          <li><a href="index.html">HOME</a></li>
+          <li><a href="/">HOME</a></li>
           <li><a href="about.html">ABOUT</a></li>
         </ul>
       </span>
@@ -30,8 +30,10 @@
     <!--Left side of the page-->
     <div id="whole" class="Item-1">
       {{range .FullList}}
-      <span type="button" class="Album" onclick="myFunction('{{.Name}}')">
+      <span type="button" class="Album" onclick="myFunction('{{.Name}}', '{{.ID}}')">
+      <span class="Album_Img_span">
         <img class="Album_Img" id="img{{.Name}}" src="{{.Image}}" alt="Avatar" />
+      </span>
         <span class="Album_Name" id="{{.Name}}">{{.Name}}</span>
         <span class="creationDate" id="creationDate{{.Name}}" style="display : none">{{.CreationDate}}</span>
         <span class="firstalbum" id="firstalbum{{.Name}}" style="display : none">{{.FirstAlbum}}</span>
@@ -51,14 +53,16 @@
       <div class="Left_Up">
         <div class="intro">
           <a id="Card_name_link" href="/about">
+          
             <center>
               <p class="Card_name" id="Card_name" ></p>
-          </a>
+          
           <p id="img">
             <img class="Card_img" id="Card_img" alt="Avatar"
               src="https://groupietrackers.herokuapp.com/api/images/queen.jpeg" style="width: 20vw" />
           </p>
           </center>
+        </a>
         </div>
 
         <div class="sub-container">
@@ -78,14 +82,16 @@
     </div>
   </div>
   <script>
-    function myFunction(pname = "") {
+    function myFunction(pname = "", id ="") {
+      console.log(id)
       let img = document.getElementById("img" + pname).src;
-      document.getElementById("Card_name_link").href = "/about";
       document.getElementById("Card_name").innerHTML = pname;
       document.getElementById("Card_img").src = img;
       document.getElementById("Card_members").innerText = document.getElementById("members" + pname).innerText
       document.getElementById("Card_date").innerHTML = document.getElementById("creationDate" + pname).innerHTML
       document.getElementById("Card_album").innerHTML = document.getElementById("firstalbum" + pname).innerHTML
+      document.getElementById("Card_name_link").href = "/about/"+pname+"/"+ id;
+      
     }
   </script>
 </body>

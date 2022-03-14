@@ -93,7 +93,9 @@ html,body {
     transition: 0.3s;
     cursor: pointer;
     margin: 10px;
+    display: flex;
   }
+
   .Album_Img{
     vertical-align: middle;
     width: 75px;
@@ -101,6 +103,8 @@ html,body {
   .Album_Name {
     vertical-align: middle;
     display: inline;
+    margin-top: 3vh;
+    margin-left: 0.8vw;
   }
   .Album:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);

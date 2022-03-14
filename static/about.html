@@ -11,7 +11,7 @@
     <nav class="Main-nav">
       <span>
         <ul class="Nav">
-          <li><a href="index.html">HOME</a></li>
+          <li><a href="/">HOME</a></li>
           <li><a href="about.html">ABOUT</a></li>
         </ul>
       </span>
@@ -31,13 +31,14 @@
   <body>
   
     <div class="Container">
+      
       <div class="Item-2" style="width: 20vw;">
         <div class="Card">
           <img
             class="Card_img"
             id="Card_img"
             alt="Avatar"
-            src={{.Artist.Image}}
+            src={{.FullList.Image}}
             style="width: 18vw"
           />
           <br />
@@ -48,7 +49,7 @@
           <div id="Card_members" class="Card_members"></div>
           <p>
 
-            {{range .Artist.Members}}
+            {{range .FullList.Members}}
             {{.}} <br>
             {{end}}
 

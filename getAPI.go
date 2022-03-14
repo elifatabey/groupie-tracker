@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 // Unmarshalling API JSON
@@ -65,7 +67,14 @@ type RelationsAPI struct {
 	} `json:"index"`
 }
 
-func unmarchAPI(url string) interface{} {
+type FullList struct {
+	Artists   []ArtistsAPI
+	Relations  RelationsAPI
+}
+
+var returno FullList
+
+func unmarchAPI(url string) FullList {
 	var Artists []ArtistsAPI
 	var Locations LocationsAPI
 	var Dates DatesAPI
@@ -81,16 +90,14 @@ func unmarchAPI(url string) interface{} {
 	err3 := json.Unmarshal(d, &Dates)
 	err4 := json.Unmarshal(r, &Relations)
 
-	FullList := make(map[string]interface{})
 
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		fmt.Println("Can not unmarshal JSON")
 	} else {
-		FullList = map[string]interface{}{
-			"Artists": Artists, "Locations": Locations, "Dates": Dates, "Relations": Relations}
+		returno =	FullList { Artists: Artists,  Relations: Relations}
 	}
 
-	return FullList["Artists"]
+	return returno;
 }
 
 func main() {
@@ -99,7 +106,7 @@ func main() {
 	tpl, _ = template.ParseGlob("static/*.html")
 
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/about", About)
+	http.HandleFunc("/about/", About)
 
 	fmt.Printf("Starting server at port 3000\n")
 	log.Fatal(http.ListenAndServe(":3000", nil))
@@ -115,7 +122,7 @@ func Home(writer http.ResponseWriter, request *http.Request) {
 	case "GET":
 		template, _ := template.ParseFiles("./static/index.html")
 
-		page := Content{FullList: unmarchAPI(api)}
+		page := Content{FullList: unmarchAPI(api).Artists}
 		template.Execute(writer, page)
 
 	default:
@@ -124,13 +131,15 @@ func Home(writer http.ResponseWriter, request *http.Request) {
 }
 
 func About(writer http.ResponseWriter, request *http.Request) {
-
-	fmt.Print("hey")
+	
+	id, _ := strconv.Atoi(strings.Split(request.URL.Path, "/")[len(strings.Split(request.URL.Path, "/"))-1])
+	//fmt.Print(unmarchAPI(api).Artists[id])
 	switch request.Method {
 	case "GET":
 		template, _ := template.ParseFiles("./static/about.html")
 
-		page := Content{FullList: unmarchAPI(api)}
+		//page =  {unmarchAPI(api).Artists[id], unmarchAPI(api).Relations.Index[id] }
+		page := Content{FullList: unmarchAPI(api).Artists[id]}
 		template.Execute(writer, page)
 
 	default:
