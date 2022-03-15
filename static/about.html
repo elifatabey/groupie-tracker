@@ -12,7 +12,7 @@
       <span>
         <ul class="Nav">
           <li><a href="/">HOME</a></li>
-          <li><a href="about.html">ABOUT</a></li>
+          <!-- <li><a href="about.html">ABOUT</a></li> -->
         </ul>
       </span>
     </nav>
@@ -32,33 +32,61 @@
   
     <div class="Container">
       
-      <div class="Item-2" style="width: 20vw;">
+      <div class="Item-2" style="width: 400px;">
         <div class="Card">
-          <img
-            class="Card_img"
+         <center><img
+            class="Card_img2"
             id="Card_img"
             alt="Avatar"
-            src={{.FullList.Image}}
-            style="width: 18vw"
-          />
+            src={{.Artist.Image}}
+          /></center> 
           <br />
           <h2>
-            <p id="Card_name"></p>
+          <p id="Card_name"></p>
           </h2>
-          <p>Members:</p>
-          <div id="Card_members" class="Card_members"></div>
-          <p>
-
-            {{range .FullList.Members}}
-            {{.}} <br>
-            {{end}}
-
-          </p>
+          <div class="Card_two">
+            <p class="pOne">Establishment Year</p>
+            <div class="Card_date">{{.Artist.CreationDate}}</div>
+            <p>First Album</p>
+            <div class="Card_album">{{.Artist.FirstAlbum}}</div>
+          </div>
+          <!-- <center> <p class="M_N" >Members</p></center>
+          <div id="Card_members" ></div>
+              <p class="Card_members2" >
+    
+                {{range .Artist.Members}}
+                {{.}} <br><br>
+                {{end}}
+    
+              </p> -->
         </div>
       </div>
       <div id="whole" class="Item-1" style="width: 80vw;">
+        <div style="width: 30vw;padding-left: 20px;padding-top: 5px;">
+       <center><p class="M_C">Concerts: </p> </center> 
+      
+        <ol>
+        {{range $key, $value := .Relation.Relations}} 
+         <li>{{$key}} <br>
+          <ul>{{range $value}} 
+            <li>{{.}}</li> <br>
+            {{end}}
+          </ul> 
+        </li> 
+        {{end}}
+      </ol>
+    </div>
+    <div style="width: 500px;padding-left: 60px;padding-top: 5px;">
+      <center> <p class="M_N" >Members</p></center>
+      <div id="Card_members" ></div>
+          <p class="Card_members2" >
 
-          
+            {{range .Artist.Members}}
+            {{.}} <br><br>
+            {{end}}
+
+          </p>
+    </div>
       </div>
     </div>
   </body>

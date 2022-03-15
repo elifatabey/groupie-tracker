@@ -69,7 +69,8 @@ type RelationsAPI struct {
 
 type FullList struct {
 	Artists   []ArtistsAPI
-	Relations  RelationsAPI
+	Location  LocationsAPI
+	Relations RelationsAPI
 }
 
 var returno FullList
@@ -90,14 +91,13 @@ func unmarchAPI(url string) FullList {
 	err3 := json.Unmarshal(d, &Dates)
 	err4 := json.Unmarshal(r, &Relations)
 
-
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		fmt.Println("Can not unmarshal JSON")
 	} else {
-		returno =	FullList { Artists: Artists,  Relations: Relations}
+		returno = FullList{Artists: Artists, Relations: Relations, Location: Locations}
 	}
 
-	return returno;
+	return returno
 }
 
 func main() {
@@ -131,15 +131,20 @@ func Home(writer http.ResponseWriter, request *http.Request) {
 }
 
 func About(writer http.ResponseWriter, request *http.Request) {
-	
+
 	id, _ := strconv.Atoi(strings.Split(request.URL.Path, "/")[len(strings.Split(request.URL.Path, "/"))-1])
 	//fmt.Print(unmarchAPI(api).Artists[id])
 	switch request.Method {
 	case "GET":
 		template, _ := template.ParseFiles("./static/about.html")
-
+		type data struct {
+			Artist   interface{}
+			LocDate  interface{}
+			Relation interface{}
+		}
 		//page =  {unmarchAPI(api).Artists[id], unmarchAPI(api).Relations.Index[id] }
-		page := Content{FullList: unmarchAPI(api).Artists[id-1]}
+		page := data{Artist: unmarchAPI(api).Artists[id-1], LocDate: unmarchAPI(api).Location.Index[id-1], Relation: unmarchAPI(api).Relations.Index[id-1]}
+		// fmt.Print(page.LocDate)
 		template.Execute(writer, page)
 
 	default:

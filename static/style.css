@@ -75,6 +75,7 @@ html,body {
     background-color: rgb(224, 223, 223);
     overflow-x: hidden;
   overflow-y: auto;
+  
 }
 
 .Container {  
@@ -239,3 +240,17 @@ ref: https://www.youtube.com/watch?v=6xNcXwC6ikQ&ab_channel=KevinPowell */
   display:none;
 }
 
+/* About Page */
+
+.Card_img2 {
+  width: 250px;
+  padding-top: 20px;
+}
+.M_C,
+.M_N{
+  background-color: rgba(20,15,37,255);
+    color: whitesmoke;
+}
+.Card_members2 {
+  padding-left: 25px;
+}
